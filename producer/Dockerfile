@@ -31,6 +31,9 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copy producer package files
 COPY producer/ ./producer/
 
+# Copy common utilities (for Phase 3)
+COPY common/ ./common/
+
 # Set Python path so imports work correctly
 ENV PYTHONPATH=/app
 

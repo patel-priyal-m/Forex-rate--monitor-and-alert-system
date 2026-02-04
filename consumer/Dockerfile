@@ -30,6 +30,9 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copy consumer package files
 COPY consumer/ ./consumer/
 
+# Copy common utilities (shared between services)
+COPY common/ ./common/
+
 # Set Python path so imports work correctly
 ENV PYTHONPATH=/app
 

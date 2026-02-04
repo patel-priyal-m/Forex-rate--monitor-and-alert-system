@@ -385,10 +385,8 @@ MIT License - Feel free to use for learning and portfolio purposes.
 
 ## 👤 Author
 
-**Priya**
-- Built for RBC interview preparation
-- Demonstrates distributed systems, streaming, and microservices architecture
-
+**Priyal**
+priyalpatelasd@gmail.com
 ---
 
 **Status:** Phase 1 Complete ✅ | Ready for Phase 2 Integration

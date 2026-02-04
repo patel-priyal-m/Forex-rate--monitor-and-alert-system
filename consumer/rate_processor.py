@@ -362,7 +362,7 @@ class RateProcessor:
             logger.info(f"\n📊 Sample Rates:")
             for i, (pair, rate) in enumerate(sorted(rates.items())[:5]):
                 vol = volatilities.get(pair)
-                vol_str = f"(σ={vol:.6f})" if vol else "(calculating...)"
+                vol_str = f"(σ={vol:.6f})" if vol is not None else "(calculating...)"
                 logger.info(f"   {pair:12s} = {rate:>10.4f} {vol_str}")
             
             # Print some cross-rates

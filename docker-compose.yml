@@ -79,8 +79,8 @@ services:
   # FX Rate Producer (fetches rates and publishes to Kafka)
   fx-producer:
     build:
-      context: ./producer
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: producer/Dockerfile
     container_name: fx-producer
     depends_on:
       kafka:
@@ -99,8 +99,8 @@ services:
   # FX Rate Consumer (processes rates from Kafka)
   fx-consumer:
     build:
-      context: ./consumer
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: consumer/Dockerfile
     container_name: fx-consumer
     depends_on:
       kafka:

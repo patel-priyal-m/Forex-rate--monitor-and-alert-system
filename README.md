@@ -16,7 +16,7 @@ Enterprise-grade FX rate monitoring system built to demonstrate:
 - **Production Monitoring**: Kibana dashboards with time-series analysis
 - **RESTful API**: FastAPI with 8 endpoints for data access and alert management
 
-**Built For**: Learning Distributed Systems
+**Purpose**: Personal project demonstrating distributed systems and real-time data processing
 
 ---
 
@@ -122,15 +122,14 @@ External API → Producer → Kafka → Consumer → [PostgreSQL, Redis, Elastic
 
 ## 📚 Documentation
 
-### Core Documentation
+### Getting Started
 - **[Quick Start Guide](docs/QUICKSTART.md)** - Get running in 5 minutes
-- **[System Architecture](docs/ARCHITECTURE.md)** - Detailed design and data flow
-- **[Kibana Setup Guide](docs/KIBANA_SETUP.md)** - Dashboard configuration
-- **[API Documentation](docs/API.md)** - REST endpoints and examples
-
-### Development Guides
-- **[Phase 4 Implementation](docs/PHASE_4_SUMMARY.md)** - Elasticsearch/Kibana integration details
+- **[System Architecture](docs/ARCHITECTURE.md)** - Detailed design and component overview
 - **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Common issues and solutions
+
+### Technical References
+- **[API Documentation](docs/API.md)** - Complete REST API reference with examples
+- **[Kibana Setup Guide](docs/KIBANA_SETUP.md)** - Dashboard configuration and visualization
 
 ---
 
@@ -164,30 +163,30 @@ Bulk API → Index 8 rates in single request
 
 ---
 
-## 🎯 Features by Phase
+## 🎯 Key Features
 
-### ✅ Phase 1: Kafka Pipeline
-- Real-time FX rate fetching (166 currencies)
+### Real-time Data Pipeline
+- Live FX rate fetching (166 currencies)
 - Kafka streaming with KRaft mode
 - Docker containerization
 
-### ✅ Phase 2: Database Integration
+### Data Storage & Processing
 - PostgreSQL historical storage
 - Redis caching layer
 - **Multiprocessing**: Pool(4) for cross-rate calculations
 - Volatility tracking (20-period rolling std dev)
 
-### ✅ Phase 3: REST API & Alerts
+### REST API & Alerting
 - **FastAPI**: 8 RESTful endpoints
 - Alert management (create, list, delete)
 - **Multiprocessing**: Pool(2) for parallel alert checking
 - Alert history tracking
 
-### ✅ Phase 4: Kibana Dashboard
+### Real-time Visualization
 - Elasticsearch time-series storage
-- Kibana real-time visualizations
-- Auto-refreshing dashboards (30s)
-- Alert history visualization
+- Kibana real-time dashboards
+- Auto-refreshing visualizations (30s)
+- Alert history analysis
 
 ---
 
@@ -324,8 +323,9 @@ See [Troubleshooting Guide](docs/TROUBLESHOOTING.md) for more help.
 ├── docs/                  # Documentation
 │   ├── QUICKSTART.md
 │   ├── ARCHITECTURE.md
+│   ├── API.md
 │   ├── KIBANA_SETUP.md
-│   └── API.md
+│   └── TROUBLESHOOTING.md
 ├── docker-compose.yml     # Service orchestration
 ├── requirements.txt       # Python dependencies
 └── README.md             # This file
@@ -390,13 +390,14 @@ MIT License - see [LICENSE](LICENSE) file
 - **Exchange Rate API**: [exchangerate-api.com](https://www.exchangerate-api.com/)
 - **Confluent Kafka**: High-performance Python client
 - **Docker Community**: Container orchestration patterns
+- **Elastic Stack**: Elasticsearch and Kibana for visualization
 
 ---
 
 ## 📞 Contact
 
-**Author**: Priyal
-**Purpose**: Distributed Systems Learning  
+**Author**: Priyal  
+**Purpose**: Personal project demonstrating distributed systems architecture  
 **Date**: February 2026
 
 ---

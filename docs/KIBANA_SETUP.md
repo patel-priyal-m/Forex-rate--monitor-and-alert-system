@@ -1,6 +1,6 @@
 # Kibana Dashboard Setup Guide
 
-## Phase 4: Real-time Monitoring with Kibana
+## Real-time Monitoring with Kibana
 
 This guide walks you through setting up professional Kibana dashboards for monitoring FX rates in real-time.
 
@@ -292,11 +292,11 @@ From Discover or visualizations:
 4. ✅ Enable auto-refresh
 5. 🎯 Monitor your FX rates in real-time!
 
-**Demo Tip**:
-- Live data flowing into dashboard
-- Create an alert via API, then show it appear in Kibana
-- Explain how multiprocessing enables real-time processing
-- Demonstrate the full data pipeline: Producer → Kafka → Consumer → Elasticsearch → Kibana
+**Demonstration Ideas**:
+- Show live data flowing into dashboard
+- Create an alert via API, then watch it appear in Kibana
+- Explain multiprocessing architecture enabling real-time processing
+- Walk through the full data pipeline: Producer → Kafka → Consumer → Elasticsearch → Kibana
 
 ---
 

@@ -32,6 +32,12 @@ redis==5.0.1
 # Used by: consumer (caching latest rates, alert cooldowns)
 # Provides: Redis class for sync operations
 
+# Elasticsearch Client
+elasticsearch==8.11.0
+# Python client for Elasticsearch
+# Used by: consumer (indexing rates for Kibana dashboards)
+# Benefits: Time-series data for real-time visualization
+
 # SQLAlchemy ORM
 SQLAlchemy==2.0.23
 # SQL toolkit and Object-Relational Mapping library

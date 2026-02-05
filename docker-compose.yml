@@ -109,6 +109,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       KAFKA_TOPIC: ${KAFKA_TOPIC}
@@ -117,6 +119,8 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_DB: ${REDIS_DB}
+      ELASTICSEARCH_HOST: elasticsearch
+      ELASTICSEARCH_PORT: ${ELASTICSEARCH_PORT}
       TRACKED_CURRENCIES: ${TRACKED_CURRENCIES}
       LOG_LEVEL: ${LOG_LEVEL}
     networks:
@@ -164,12 +168,16 @@ services:
         condition: service_healthy
       postgres:
         condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       KAFKA_TOPIC: ${KAFKA_TOPIC}
       ALERT_TOPIC: ${ALERT_TOPIC}
       ALERT_GROUP_ID: ${ALERT_GROUP_ID}
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      ELASTICSEARCH_HOST: elasticsearch
+      ELASTICSEARCH_PORT: ${ELASTICSEARCH_PORT}
       LOG_LEVEL: ${LOG_LEVEL}
     networks:
       - fx-network

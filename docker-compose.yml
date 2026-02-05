@@ -123,6 +123,36 @@ services:
       - fx-network
     restart: unless-stopped
 
+  # FastAPI REST API
+  fx-api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: fx-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "${API_PORT}:8000"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_DB: ${REDIS_DB}
+      API_PORT: 8000
+      LOG_LEVEL: ${LOG_LEVEL}
+    networks:
+      - fx-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
 # Persistent storage volumes
 volumes:
   kafka-data:

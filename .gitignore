@@ -11,7 +11,7 @@ build/
 *.manifest
 *.spec
 
-# Virtual Environment (if used later)
+# Virtual Environment
 venv/
 env/
 ENV/
@@ -28,6 +28,41 @@ ENV/
 *.swp
 *.swo
 *~
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+*.cover
+.hypothesis/
+test_*.db
+test_fx_monitor.db
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
+
+# OS
+Thumbs.db
+.Trash-*
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~.nib
 .DS_Store
 
 # Docker

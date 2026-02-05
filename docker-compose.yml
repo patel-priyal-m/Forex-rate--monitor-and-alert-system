@@ -153,6 +153,29 @@ services:
       retries: 3
       start_period: 10s
 
+  # Alert Engine (monitors rates and triggers alerts)
+  alert-engine:
+    build:
+      context: .
+      dockerfile: consumer/Dockerfile
+    container_name: alert-engine
+    depends_on:
+      kafka:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      KAFKA_TOPIC: ${KAFKA_TOPIC}
+      ALERT_TOPIC: ${ALERT_TOPIC}
+      ALERT_GROUP_ID: ${ALERT_GROUP_ID}
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      LOG_LEVEL: ${LOG_LEVEL}
+    networks:
+      - fx-network
+    restart: unless-stopped
+    command: ["python", "-u", "consumer/alert_engine.py"]
+
 # Persistent storage volumes
 volumes:
   kafka-data:

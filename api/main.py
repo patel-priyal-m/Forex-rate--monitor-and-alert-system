@@ -532,7 +532,8 @@ async def health_check():
     try:
         session = get_db_session()
         # Simple query to check connection
-        session.execute("SELECT 1")
+        from sqlalchemy import text
+        session.execute(text("SELECT 1"))
         session.close()
         health_status["components"]["database"] = {
             "status": "healthy",

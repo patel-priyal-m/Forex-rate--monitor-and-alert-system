@@ -1,0 +1,3 @@
+{"attributes":{"fields":"[]","timeFieldName":"timestamp","title":"fx-rates*"},"id":"fx-rates-pattern","references":[],"type":"index-pattern","version":"WzEsMV0="}
+{"attributes":{"fields":"[]","timeFieldName":"triggered_at","title":"fx-alerts*"},"id":"fx-alerts-pattern","references":[],"type":"index-pattern","version":"WzIsMV0="}
+

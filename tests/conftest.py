@@ -37,9 +37,13 @@ def test_engine():
     Base.metadata.create_all(bind=engine)
     yield engine
     Base.metadata.drop_all(bind=engine)
+    engine.dispose()  # Close all connections before deleting
     # Clean up test database file
-    if os.path.exists("./test_fx_monitor.db"):
-        os.remove("./test_fx_monitor.db")
+    try:
+        if os.path.exists("./test_fx_monitor.db"):
+            os.remove("./test_fx_monitor.db")
+    except PermissionError:
+        pass  # File still in use, will be cleaned up later
 
 
 @pytest.fixture(scope="function")

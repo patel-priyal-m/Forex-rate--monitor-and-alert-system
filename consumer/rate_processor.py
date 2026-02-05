@@ -24,6 +24,7 @@ from confluent_kafka import Consumer, KafkaException, KafkaError
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from common.database import get_db_session, init_db, FXRate
 from common.redis_client import get_redis_client
+from common.elasticsearch_client import get_elasticsearch_client
 
 
 # Configure logging
@@ -90,6 +91,19 @@ class RateProcessor:
             logger.info("✅ Redis connection successful")
         else:
             logger.error("❌ Redis connection failed")
+        
+        # Initialize Elasticsearch client
+        logger.info("Initializing Elasticsearch client...")
+        try:
+            self.es_client = get_elasticsearch_client()
+            if self.es_client.ping():
+                logger.info("✅ Elasticsearch connection successful")
+            else:
+                logger.warning("⚠️  Elasticsearch connection failed - continuing without it")
+                self.es_client = None
+        except Exception as e:
+            logger.warning(f"⚠️  Failed to initialize Elasticsearch: {e}")
+            self.es_client = None
         
         # Initialize Kafka consumer
         self.consumer = self._create_consumer()
@@ -235,8 +249,47 @@ class RateProcessor:
             return volatility
         except statistics.StatisticsError as e:
             logger.debug(f"Error calculating volatility for {pair}: {e}")
-            return None
-    
+            return None    
+    def index_rates_to_elasticsearch(self, timestamp: str, rates: Dict[str, float], 
+                                     volatilities: Dict[str, float]) -> int:
+        """
+        Index rates to Elasticsearch for Kibana visualization.
+        
+        Args:
+            timestamp: ISO-8601 timestamp string
+            rates: Dictionary of {pair: rate}
+            volatilities: Dictionary of {pair: volatility}
+        
+        Returns:
+            int: Number of rates indexed
+        """
+        if not self.es_client:
+            return 0
+        
+        try:
+            # Parse timestamp
+            ts = datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
+            
+            # Prepare bulk data
+            rates_data = []
+            for pair, rate in rates.items():
+                rate_info = {
+                    'timestamp': ts,
+                    'pair': pair,
+                    'rate': rate,
+                    'volatility': volatilities.get(pair),
+                    'source': 'api'
+                }
+                rates_data.append(rate_info)
+            
+            # Bulk index to Elasticsearch
+            indexed_count = self.es_client.index_rates_bulk(rates_data)
+            
+            return indexed_count
+            
+        except Exception as e:
+            logger.error(f"Error indexing to Elasticsearch: {e}")
+            return 0    
     def calculate_all_volatilities(self, rates: Dict[str, float]) -> Dict[str, float]:
         """
         Calculate volatility for all currency pairs.
@@ -355,7 +408,14 @@ class RateProcessor:
             vol_time = time.time() - vol_start
             logger.info(f"✅ Calculated volatility for {len(volatilities)} pairs ({vol_time:.3f}s)")
             
-            # Step 4: Calculate cross-rates (parallel processing)
+            # Step 4: Index to Elasticsearch for Kibana
+            if self.es_client:
+                es_start = time.time()
+                indexed_count = self.index_rates_to_elasticsearch(timestamp, rates, volatilities)
+                es_time = time.time() - es_start
+                logger.info(f"✅ Indexed {indexed_count} rates to Elasticsearch ({es_time:.3f}s)")
+            
+            # Step 5: Calculate cross-rates (parallel processing)
             cross_rates = self.calculate_cross_rates_parallel(rates)
             
             # Print some rates with volatility

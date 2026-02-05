@@ -19,6 +19,7 @@ from confluent_kafka import Consumer, Producer, KafkaException, KafkaError
 # Import from common utilities
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from common.database import get_db_session, UserAlert, AlertHistory
+from common.elasticsearch_client import get_elasticsearch_client
 
 
 # Configure logging
@@ -87,6 +88,19 @@ class AlertEngine:
         # Multiprocessing pool for parallel alert checking
         self.pool = Pool(processes=2)
         logger.info("✅ Multiprocessing pool created with 2 workers")
+        
+        # Initialize Elasticsearch client
+        logger.info("Initializing Elasticsearch client...")
+        try:
+            self.es_client = get_elasticsearch_client()
+            if self.es_client.ping():
+                logger.info("✅ Elasticsearch connection successful")
+            else:
+                logger.warning("⚠️  Elasticsearch connection failed - continuing without it")
+                self.es_client = None
+        except Exception as e:
+            logger.warning(f"⚠️  Failed to initialize Elasticsearch: {e}")
+            self.es_client = None
         
         # Shutdown flag
         self.running = True
@@ -220,6 +234,13 @@ class AlertEngine:
             
             session.add(history_record)
             session.commit()
+            
+            # Also index to Elasticsearch if available
+            if self.es_client:
+                try:
+                    self.es_client.index_alert(alert_info)
+                except Exception as e:
+                    logger.warning(f"Failed to index alert to Elasticsearch: {e}")
             
             return True
         except Exception as e:

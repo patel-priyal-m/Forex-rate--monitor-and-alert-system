@@ -368,7 +368,7 @@ depends_on:
 | `.env` | Modified | - | Added ES ports |
 | `requirements.txt` | Modified | - | Added ES client |
 
-## 🎓 Interview Talking Points (RBC)
+## 🎓 Interesting Talking Points
 
 ### 1. Production-Ready Design
 - "I chose Kibana over Streamlit because it's used in production for monitoring systems"

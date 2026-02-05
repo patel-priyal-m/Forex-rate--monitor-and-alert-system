@@ -292,7 +292,7 @@ From Discover or visualizations:
 4. ✅ Enable auto-refresh
 5. 🎯 Monitor your FX rates in real-time!
 
-**Demo Tip**: For your RBC interview, show:
+**Demo Tip**:
 - Live data flowing into dashboard
 - Create an alert via API, then show it appear in Kibana
 - Explain how multiprocessing enables real-time processing
